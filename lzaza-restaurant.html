@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lzaza Restaurant — Gojra</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #100c0a;
+    --bg-soft: #17120f;
+    --ember: #e8772a;
+    --saffron: #f2a93c;
+    --maroon: #6b1d1d;
+    --cream: #f4ece1;
+    --muted: #b3a79a;
+    --line: rgba(244,236,225,0.1);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--cream);
+    font-family:'Manrope', sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3, .display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  /* texture */
+  body::before{
+    content:'';
+    position:fixed; inset:0;
+    background-image: radial-gradient(circle at 20% 20%, rgba(232,119,42,0.07), transparent 40%),
+                       radial-gradient(circle at 85% 75%, rgba(107,29,29,0.18), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+
+  /* NAV */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(16,12,10,0.7);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px; max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    font-family:'Fraunces', serif; font-size:1.4rem; font-weight:700;
+    letter-spacing:0.02em;
+  }
+  .logo span{color:var(--ember);}
+  .navlinks{display:flex; gap:34px; font-size:0.92rem; font-weight:500;}
+  .navlinks a{color:var(--muted); transition:color 0.25s;}
+  .navlinks a:hover{color:var(--saffron);}
+  .nav-cta{
+    background:var(--ember); color:#1a0f08; padding:10px 22px; border-radius:3px;
+    font-weight:700; font-size:0.88rem; letter-spacing:0.02em;
+  }
+  .menu-toggle{display:none; background:none; border:none; color:var(--cream); font-size:1.6rem; cursor:pointer;}
+
+  /* HERO */
+  .hero{
+    min-height:100vh; position:relative; display:flex; align-items:center;
+    padding:140px 0 80px;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:center;
+  }
+  .eyebrow{
+    color:var(--saffron); font-size:0.82rem; letter-spacing:0.18em; text-transform:uppercase;
+    font-weight:700; margin-bottom:22px; display:flex; align-items:center; gap:12px;
+  }
+  .eyebrow::before{content:''; width:30px; height:1px; background:var(--saffron);}
+  .hero h1{
+    font-size:clamp(2.6rem, 5.4vw, 4.6rem); line-height:1.04; color:var(--cream);
+  }
+  .hero h1 em{
+    font-style:italic; color:var(--ember); font-weight:500;
+  }
+  .hero p.lead{
+    margin-top:26px; font-size:1.08rem; color:var(--muted); max-width:480px; line-height:1.7;
+  }
+  .hero-actions{display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ember); color:#1a0f08; padding:15px 30px; border-radius:3px;
+    font-weight:700; font-size:0.95rem; transition:transform 0.2s, background 0.2s;
+  }
+  .btn-primary:hover{background:var(--saffron); transform:translateY(-2px);}
+  .btn-ghost{
+    border:1px solid var(--line); color:var(--cream); padding:15px 30px; border-radius:3px;
+    font-weight:600; font-size:0.95rem; transition:border-color 0.2s, background 0.2s;
+  }
+  .btn-ghost:hover{border-color:var(--saffron); background:rgba(242,169,60,0.06);}
+
+  .hero-visual{
+    position:relative; aspect-ratio:4/5; border-radius:6px; overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .hero-visual img{width:100%; height:100%; object-fit:cover;}
+  .hero-visual::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 40%, rgba(16,12,10,0.85) 100%);
+  }
+  .hero-tag{
+    position:absolute; bottom:22px; left:22px; right:22px; z-index:2;
+    font-size:0.85rem; color:var(--muted); border-top:1px solid var(--line); padding-top:14px;
+  }
+  .hero-tag b{color:var(--saffron); font-family:'Fraunces',serif; font-style:italic; font-weight:500;}
+
+  section{position:relative; z-index:1; padding:110px 0;}
+  .section-head{margin-bottom:54px; max-width:620px;}
+  .section-head .eyebrow{margin-bottom:16px;}
+  .section-head h2{font-size:clamp(2rem, 3.4vw, 2.8rem); color:var(--cream);}
+  .section-head p{color:var(--muted); margin-top:16px; line-height:1.7;}
+
+  /* ABOUT / STRIP */
+  .strip{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:50px 0;
+  }
+  .strip-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:30px; text-align:center;
+  }
+  .strip-grid div b{
+    display:block; font-family:'Fraunces',serif; font-size:1.9rem; color:var(--ember); font-weight:600;
+  }
+  .strip-grid div span{font-size:0.82rem; color:var(--muted); letter-spacing:0.04em; text-transform:uppercase;}
+
+  /* MENU */
+  .menu-tabs{display:flex; gap:10px; margin-bottom:46px; flex-wrap:wrap;}
+  .tab-btn{
+    background:transparent; border:1px solid var(--line); color:var(--muted);
+    padding:10px 20px; border-radius:30px; font-size:0.86rem; font-weight:600; cursor:pointer;
+    transition:all 0.25s;
+  }
+  .tab-btn.active, .tab-btn:hover{border-color:var(--ember); color:var(--saffron); background:rgba(232,119,42,0.08);}
+
+  .menu-grid{display:grid; grid-template-columns:1fr 1fr; gap:0 60px;}
+  .menu-cat{display:none;}
+  .menu-cat.active{display:grid; grid-template-columns:1fr 1fr; gap:0 60px;}
+  .menu-item{
+    display:flex; justify-content:space-between; gap:14px;
+    padding:20px 0; border-bottom:1px dashed var(--line);
+  }
+  .menu-item .mi-left h4{font-family:'Fraunces',serif; font-size:1.1rem; font-weight:600; color:var(--cream);}
+  .menu-item .mi-left p{font-size:0.85rem; color:var(--muted); margin-top:5px; max-width:280px;}
+  .menu-item .mi-price{
+    font-family:'Fraunces',serif; font-weight:600; color:var(--saffron); white-space:nowrap; font-size:1.05rem;
+  }
+
+  /* GALLERY */
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); grid-auto-rows:170px; gap:14px;
+  }
+  .gallery-grid div{
+    border-radius:5px; overflow:hidden; border:1px solid var(--line); position:relative;
+  }
+  .gallery-grid div img{width:100%; height:100%; object-fit:cover; transition:transform 0.5s;}
+  .gallery-grid div:hover img{transform:scale(1.08);}
+  .g1{grid-column:span 2; grid-row:span 2;}
+  .g4{grid-column:span 2;}
+
+  /* LOCATION / CONTACT */
+  .contact-wrap{
+    display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;
+  }
+  .info-row{display:flex; gap:18px; padding:20px 0; border-bottom:1px solid var(--line);}
+  .info-row .ic{
+    width:42px; height:42px; border-radius:50%; background:rgba(232,119,42,0.12);
+    display:flex; align-items:center; justify-content:center; color:var(--ember); flex-shrink:0;
+  }
+  .info-row h4{font-size:0.95rem; color:var(--cream); margin-bottom:4px;}
+  .info-row p{font-size:0.88rem; color:var(--muted); line-height:1.6;}
+  .info-row a{color:var(--saffron);}
+
+  .map-frame{
+    border-radius:6px; overflow:hidden; border:1px solid var(--line); aspect-ratio:1/0.95;
+  }
+  .map-frame iframe{width:100%; height:100%; border:0; filter:grayscale(0.3) invert(0.92) contrast(0.85);}
+
+  /* CTA BAND */
+  .cta-band{
+    background:linear-gradient(120deg, var(--maroon), #3a1410);
+    border-radius:8px; padding:60px 50px; text-align:center; margin:0 28px;
+    position:relative; overflow:hidden;
+  }
+  .cta-band::before{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 30% 20%, rgba(242,169,60,0.18), transparent 55%);
+  }
+  .cta-band h2{font-size:clamp(1.9rem,3.4vw,2.6rem); position:relative; color:var(--cream);}
+  .cta-band p{color:rgba(244,236,225,0.75); margin-top:14px; position:relative;}
+  .cta-band .hero-actions{justify-content:center; position:relative; margin-top:32px;}
+
+  footer{
+    border-top:1px solid var(--line); padding:50px 0 30px; margin-top:60px;
+  }
+  .footer-grid{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;}
+  .footer-grid .logo{font-size:1.2rem;}
+  .footer-links{display:flex; gap:24px; font-size:0.85rem; color:var(--muted);}
+  .footer-links a:hover{color:var(--saffron);}
+  .made-by{
+    text-align:center; padding-top:30px; margin-top:30px; border-top:1px solid var(--line);
+    font-size:0.8rem; color:var(--muted); letter-spacing:0.02em;
+  }
+  .made-by span{color:var(--saffron); font-weight:600;}
+
+  @media (max-width: 860px){
+    .navlinks, .nav-cta{display:none;}
+    .menu-toggle{display:block;}
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{order:-1; aspect-ratio:16/10;}
+    .strip-grid{grid-template-columns:repeat(2,1fr); gap:30px 20px;}
+    .menu-cat.active{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:140px;}
+    .g1{grid-column:span 2; grid-row:span 1;}
+    .contact-wrap{grid-template-columns:1fr;}
+    .cta-band{margin:0 16px; padding:46px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">LZA<span>ZA</span></div>
+    <div class="navlinks">
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#about">About</a>
+      <a href="#visit">Visit</a>
+    </div>
+    <a href="tel:+923001234567" class="nav-cta">Call to Order</a>
+    <button class="menu-toggle">☰</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Eid Gah Road · Gojra</div>
+      <h1>Flavor that gathers <em>everyone</em> to one table.</h1>
+      <p class="lead">Lzaza brings Gojra's families together over sizzling BBQ, slow-cooked Pakistani karahis and wok-tossed Chinese favourites — made fresh, served generously, every single day.</p>
+      <div class="hero-actions">
+        <a href="tel:+923001234567" class="btn-primary">Order by Phone</a>
+        <a href="#menu" class="btn-ghost">View Menu</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=900&auto=format&fit=crop" alt="Sizzling BBQ platter">
+      <div class="hero-tag">Tonight's favourite — <b>Lzaza Special Mix Grill</b></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="strip">
+    <div class="strip-grid">
+      <div><b>15+</b><span>Years Serving Gojra</span></div>
+      <div><b>4.1★</b><span>Customer Rating</span></div>
+      <div><b>40+</b><span>Signature Dishes</span></div>
+      <div><b>Daily</b><span>12 PM – 11 PM</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Our Story</div>
+      <h2>A family-style kitchen, built on Eid Gah Road.</h2>
+      <p>Lzaza — meaning "deliciousness" — has been a Gojra gathering spot for family dinners, friend hangouts and celebrations alike. Our kitchen runs three menus side by side: classic Pakistani karahis and BBQ off the coals, and wok-fired Chinese plates, all cooked to order.</p>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The Menu</div>
+      <h2>Pick your craving.</h2>
+      <p>Prices in PKR. Ask your server about today's chef specials and combo deals.</p>
+    </div>
+
+    <div class="menu-tabs">
+      <button class="tab-btn active" data-cat="bbq">BBQ &amp; Grill</button>
+      <button class="tab-btn" data-cat="pak">Pakistani</button>
+      <button class="tab-btn" data-cat="chinese">Chinese</button>
+      <button class="tab-btn" data-cat="drinks">Drinks &amp; Sides</button>
+    </div>
+
+    <div class="menu-cat active" id="bbq">
+      <div class="menu-item"><div class="mi-left"><h4>Seekh Kebab (4 pcs)</h4><p>Hand-minced beef, char-grilled over coals</p></div><div class="mi-price">Rs 650</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Chicken Malai Boti</h4><p>Creamy, mildly spiced, smoked finish</p></div><div class="mi-price">Rs 720</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Mutton Chops</h4><p>Marinated overnight, grilled to order</p></div><div class="mi-price">Rs 1,250</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Lzaza Mix Grill (for 2)</h4><p>Seekh, boti, chops &amp; tikka platter</p></div><div class="mi-price">Rs 2,400</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Chicken Tikka (full)</h4><p>Classic tandoor-style, smoky &amp; tender</p></div><div class="mi-price">Rs 900</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Beef Chapli Kebab</h4><p>Peshawari-style, served with naan</p></div><div class="mi-price">Rs 550</div></div>
+    </div>
+
+    <div class="menu-cat" id="pak">
+      <div class="menu-item"><div class="mi-left"><h4>Chicken Karahi (full)</h4><p>Tomato-based, fresh ginger &amp; green chili</p></div><div class="mi-price">Rs 1,800</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Mutton Karahi (full)</h4><p>Slow-cooked, rich and aromatic</p></div><div class="mi-price">Rs 2,600</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Daal Mash</h4><p>Slow-simmered black lentils</p></div><div class="mi-price">Rs 380</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Mutton Biryani</h4><p>Layered basmati, served with raita</p></div><div class="mi-price">Rs 480</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Chicken White Karahi</h4><p>Cream-based, mild and fragrant</p></div><div class="mi-price">Rs 1,900</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Butter Naan</h4><p>Fresh from the tandoor</p></div><div class="mi-price">Rs 90</div></div>
+    </div>
+
+    <div class="menu-cat" id="chinese">
+      <div class="menu-item"><div class="mi-left"><h4>Chicken Manchurian</h4><p>Sweet-spicy wok sauce, scallions</p></div><div class="mi-price">Rs 750</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Chili Chicken (Dry)</h4><p>Crispy, tossed in chili-garlic glaze</p></div><div class="mi-price">Rs 780</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Chicken Fried Rice</h4><p>Wok-tossed, egg &amp; spring onion</p></div><div class="mi-price">Rs 480</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Veg Chowmein</h4><p>Soft noodles, seasonal vegetables</p></div><div class="mi-price">Rs 420</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Hot &amp; Sour Soup</h4><p>Chicken or vegetable</p></div><div class="mi-price">Rs 350</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Schezwan Chicken</h4><p>Fiery Schezwan-style stir fry</p></div><div class="mi-price">Rs 800</div></div>
+    </div>
+
+    <div class="menu-cat" id="drinks">
+      <div class="menu-item"><div class="mi-left"><h4>Lzaza Lassi</h4><p>Sweet, salted or mango</p></div><div class="mi-price">Rs 220</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Soft Drinks (500ml)</h4><p>Assorted flavours</p></div><div class="mi-price">Rs 120</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Kashmiri Chai</h4><p>Pink tea, pistachio garnish</p></div><div class="mi-price">Rs 250</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Raita</h4><p>House-churned yogurt dip</p></div><div class="mi-price">Rs 150</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Salad Platter</h4><p>Onion, mint &amp; chili</p></div><div class="mi-price">Rs 130</div></div>
+      <div class="menu-item"><div class="mi-left"><h4>Mineral Water</h4><p>500ml / 1.5L</p></div><div class="mi-price">Rs 80 / 150</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Inside Lzaza</div>
+      <h2>A taste of the table.</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="g1"><img src="https://images.unsplash.com/photo-1633237308525-cd587cf71926?q=80&w=900&auto=format&fit=crop" alt="Karahi dish"></div>
+      <div><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=600&auto=format&fit=crop" alt="Grilled kebabs"></div>
+      <div><img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=600&auto=format&fit=crop" alt="Biryani plate"></div>
+      <div class="g4"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=900&auto=format&fit=crop" alt="Restaurant table spread"></div>
+      <div><img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=600&auto=format&fit=crop" alt="Naan bread"></div>
+      <div><img src="https://images.unsplash.com/photo-1626777553635-be0bf0b8fd72?q=80&w=600&auto=format&fit=crop" alt="Chinese stir fry"></div>
+    </div>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Find Us</div>
+      <h2>Visit, call, or order in.</h2>
+    </div>
+    <div class="contact-wrap">
+      <div>
+        <div class="info-row">
+          <div class="ic">📍</div>
+          <div><h4>Address</h4><p>Lzaza Restaurant, Eid Gah Road, Gojra,<br>Toba Tek Singh District, Punjab, Pakistan</p></div>
+        </div>
+        <div class="info-row">
+          <div class="ic">📞</div>
+          <div><h4>Phone / Takeaway Orders</h4><p><a href="tel:+923001234567">+92 300 1234567</a> — replace with your live number</p></div>
+        </div>
+        <div class="info-row">
+          <div class="ic">🕑</div>
+          <div><h4>Hours</h4><p>Every day · 12:00 PM – 11:00 PM</p></div>
+        </div>
+        <div class="info-row">
+          <div class="ic">🍽️</div>
+          <div><h4>Service</h4><p>Dine-in · Takeaway · Family seating &amp; private hall available</p></div>
+        </div>
+        <div class="hero-actions" style="margin-top:34px;">
+          <a href="tel:+923001234567" class="btn-primary">Call to Order</a>
+          <a href="https://maps.app.goo.gl/2snQ13NDfXpiveX79" target="_blank" class="btn-ghost">Get Directions</a>
+        </div>
+      </div>
+      <div class="map-frame">
+        <iframe src="https://www.google.com/maps?q=Lzaza+Restaurant+Gojra&output=embed" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cta-band">
+    <h2>Hungry already?</h2>
+    <p>Call ahead and your order will be ready by the time you arrive — or pull up a chair and let us cook for you.</p>
+    <div class="hero-actions">
+      <a href="tel:+923001234567" class="btn-primary">Call +92 300 1234567</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="logo">LZA<span>ZA</span></div>
+      <div class="footer-links">
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#visit">Visit</a>
+        <a href="https://maps.app.goo.gl/2snQ13NDfXpiveX79" target="_blank">Directions</a>
+      </div>
+    </div>
+    <div class="made-by">Website made by <span>Hatim</span></div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.menu-cat').forEach(c=>c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.cat).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
